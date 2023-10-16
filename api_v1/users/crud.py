@@ -8,6 +8,7 @@ DELETE
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from core.models import User
 from .schemas import UserCreate, UserUpdate, UserUpdatePartial
 
@@ -32,9 +33,10 @@ async def create_user(session: AsyncSession, user_in: UserCreate) -> User:
 
 
 async def update_user(
-        session: AsyncSession,
-        user: User, user_update: UserUpdate | UserUpdatePartial,
-        partial: bool = False,
+    session: AsyncSession,
+    user: User,
+    user_update: UserUpdate | UserUpdatePartial,
+    partial: bool = False,
 ) -> User:
     for key, value in user_update.model_dump(exclude_unset=partial).items():
         setattr(user, key, value)
@@ -43,11 +45,12 @@ async def update_user(
 
 
 async def delete_user(
-        session: AsyncSession,
-        user: User,
+    session: AsyncSession,
+    user: User,
 ) -> None:
     await session.delete(user)
     await session.commit()
+
 
 # async def update_user_partial(session: AsyncSession, user: User, user_update: UserUpdatePartial) -> User:
 #     for key, value in user_update.model_dump(exclude_unset=True).items():

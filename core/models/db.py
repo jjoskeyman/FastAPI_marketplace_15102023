@@ -1,3 +1,5 @@
+from asyncio import current_task
+
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     async_sessionmaker,
@@ -5,7 +7,6 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 
-from asyncio import current_task
 from core.config import setting
 
 

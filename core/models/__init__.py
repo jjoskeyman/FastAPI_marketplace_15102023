@@ -5,5 +5,5 @@ __all__ = (
     "DatabaseHelper",
 )
 from .base import Base
-from .user import User
 from .db import db_helper, DatabaseHelper
+from .user import User

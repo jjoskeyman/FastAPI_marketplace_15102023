@@ -7,6 +7,7 @@ from .base import Base
 
 if TYPE_CHECKING:
     from .review import Review
+    from .account import Account
 
 
 class User(Base):
@@ -15,3 +16,4 @@ class User(Base):
     email: Mapped[str] = mapped_column(unique=True)
 
     reviews: Mapped[list["Review"]] = relationship(back_populates="user")
+    account: Mapped["Account"] = relationship(back_populates="user")

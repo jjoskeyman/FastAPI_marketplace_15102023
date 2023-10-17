@@ -1,15 +1,18 @@
 from pydantic_settings import BaseSettings
-
+from pydantic import BaseModel
 
 # BASE_DIR = Path(__file__).parent.parent
+
+
+class DbSettings(BaseModel):
+    url: str = "postgresql+asyncpg://postgres:1488@localhost/sqlalchemy_tuts"
+    echo: bool = True
 
 
 class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
 
-    db_url: str = "postgresql+asyncpg://postgres:1488@localhost/sqlalchemy_tuts"
-    # db_echo: bool = False
-    db_echo: bool = True
+    db: DbSettings = DbSettings()
 
 
 setting = Settings()

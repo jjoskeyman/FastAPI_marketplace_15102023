@@ -14,4 +14,10 @@ class Review(UserRelationMixin, Base):
         default="",
         server_default="",
     )
-    rating: Mapped[int]
+    rating: Mapped[int | None] = None
+
+    def __str__(self):
+        return f"{self.__class__.__name__}(id={self.id}, username={self.title!r}, user_id={self.user_id})"
+
+    def __repr__(self):
+        return str(self)

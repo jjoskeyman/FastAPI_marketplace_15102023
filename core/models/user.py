@@ -11,9 +11,13 @@ if TYPE_CHECKING:
 
 
 class User(Base):
-    user_name: Mapped[str] = mapped_column(String(32), unique=True)
-    first_name: Mapped[str]
-    email: Mapped[str] = mapped_column(unique=True)
+    username: Mapped[str] = mapped_column(String(32), unique=True)
 
     reviews: Mapped[list["Review"]] = relationship(back_populates="user")
     account: Mapped["Account"] = relationship(back_populates="user")
+
+    def __str__(self):
+        return f"{self.__class__.__name__}(id={self.id}, username={self.username!r})"
+
+    def __repr__(self):
+        return str(self)

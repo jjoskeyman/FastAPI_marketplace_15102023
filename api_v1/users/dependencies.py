@@ -12,7 +12,7 @@ async def get_user_by_id(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> User:
     user = await crud.get_user(session=session, user_id=user_id)
-    if user:
+    if user is not None:
         return user
 
     raise HTTPException(

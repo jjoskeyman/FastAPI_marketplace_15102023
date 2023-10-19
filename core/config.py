@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings
 class DbSettings(BaseModel):
     url: str = "postgresql+asyncpg://postgres:1488@localhost/sqlalchemy_tuts"
     echo: bool = False
-    #echo: bool = True
+    # echo: bool = True
 
 
 class Settings(BaseSettings):

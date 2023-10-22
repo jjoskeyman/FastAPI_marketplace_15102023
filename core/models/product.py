@@ -16,7 +16,7 @@ class ProductCategory(enum.Enum):
     furniture = "furniture"
     phones = "phones"
 
-###cChhheee
+
 class Product(Base):
     product_name: Mapped[str] = mapped_column(String(100))
     description: Mapped[str_256 | None]

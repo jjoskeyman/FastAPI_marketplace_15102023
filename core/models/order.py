@@ -25,8 +25,8 @@ class Order(UserRelationMixin, Base):
         default="",
         server_default="",
     )
-    cart_id: Mapped[int] = mapped_column(ForeignKey("carts.id"), unique=True)
-    cart = relationship("Cart", back_populates="orders")
+    # cart_id: Mapped[int] = mapped_column(ForeignKey("carts.id"), unique=True)
+    # cart = relationship("Cart", back_populates="orders")
     # def __str__(self):
     #     return f"{self.__class__.__name__}(id={self.id}, status={self.status!r}, user_id={self.user_id})"
     #

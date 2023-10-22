@@ -17,6 +17,7 @@ class Base(DeclarativeBase):
     type_annotation_map = {str_256: String(256)}
 
     id: Mapped[int] = mapped_column(primary_key=True)
+
     created_at: Mapped[datetime.datetime] = mapped_column(
         server_default=text("TIMEZONE('utc', now())")
     )

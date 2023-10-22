@@ -8,11 +8,14 @@ from core.config import setting
 from core.models import db_helper, Base
 
 
+# from core.models import db_helper, Base
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with db_helper.engine.begin() as connection:
-        # await connection.run_sync(Base.metadata.drop_all)
-        await connection.run_sync(Base.metadata.create_all)
+    # async with db_helper.engine.begin() as connection:
+    #     await connection.run_sync(Base.metadata.drop_all)
+    #     await connection.run_sync(Base.metadata.create_all)
     yield
 
 

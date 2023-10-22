@@ -5,6 +5,7 @@ from sqlalchemy.orm import declared_attr, Mapped, mapped_column, relationship
 
 if TYPE_CHECKING:
     from .user import User
+    from .product import Product
 
 
 class UserRelationMixin:
@@ -25,4 +26,25 @@ class UserRelationMixin:
         return relationship(
             "User",
             back_populates=cls._user_back_populates_,
+        )
+
+
+class ProductRelationMixin:
+    _product_id_nullable_: bool = False
+    _product_id_unique_: bool = False
+    _product_back_populates_: str | None = None
+
+    @declared_attr
+    def product_id(cls) -> Mapped[int]:
+        return mapped_column(
+            ForeignKey("products.id"),
+            unique=cls._product_id_unique_,
+            nullable=cls._product_id_nullable_,
+        )
+
+    @declared_attr
+    def product(cls) -> Mapped["Product"]:
+        return relationship(
+            "Product",
+            back_populates=cls._product_back_populates_,
         )

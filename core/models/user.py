@@ -9,7 +9,8 @@ if TYPE_CHECKING:
     from .review import Review
     from .account import Account
     from .order import Order
-    from .cart import Cart
+
+    # from .cart import Cart
 
 
 class User(Base):
@@ -17,8 +18,8 @@ class User(Base):
 
     reviews: Mapped[list["Review"]] = relationship(back_populates="user")
     account: Mapped["Account"] = relationship(back_populates="user")
-    orders: Mapped[list["Order"]] = relationship(back_populates="user")
-    cart: Mapped["Cart"] = relationship(back_populates="user")
+    # orders: Mapped[list["Order"]] = relationship(back_populates="user")
+    # cart: Mapped["Cart"] = relationship(back_populates="user")
 
     def __str__(self):
         return f"{self.__class__.__name__}(id={self.id}, username={self.username!r})"

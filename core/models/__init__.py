@@ -7,7 +7,7 @@ __all__ = (
     "Review",
     "Account",
     "Order",
-    "order_product_association_table",
+    "OrderProductAssociation",
 )
 from .base import Base
 from .db import db_helper, DatabaseHelper
@@ -17,4 +17,4 @@ from .review import Review
 from .user import User
 from .account import Account
 from .order import Order
-from .order_product_association import order_product_association_table
+from .order_product_association import OrderProductAssociation

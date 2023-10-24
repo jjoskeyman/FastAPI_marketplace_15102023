@@ -7,8 +7,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base, str_256
 
 if TYPE_CHECKING:
-    from .cart import Cart
+    # from .cart import Cart
     from .order import Order
+    from .order_product_association import OrderProductAssociation
 
 
 class ProductCategory(enum.Enum):
@@ -24,6 +25,11 @@ class Product(Base):
     product_category: Mapped[str | None]
     # product_category: Mapped[ProductCategory]
     # review_id: Mapped[int] = mapped_column(ForeignKey("reviews.id"), nullable=True)
-
-    cart: Mapped["Cart"] = relationship(back_populates="product")
-    orders: Mapped[list["Order"]] = relationship(back_populates="product")
+    # cart: Mapped["Cart"] = relationship(back_populates="product")
+    # orders: Mapped[list["Order"]] = relationship(
+    #     secondary="order_product_association",
+    #     back_populates="products",
+    # )
+    orders_details: Mapped[list["OrderProductAssociation"]] = relationship(
+        back_populates="product",
+    )

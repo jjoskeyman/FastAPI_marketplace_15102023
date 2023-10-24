@@ -3,10 +3,11 @@ from sqlalchemy import String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
 from .base import Base
-from .mixins import UserRelationMixin
 
 if TYPE_CHECKING:
-    from .cart import Cart
+    # from .cart import Cart
+    from .product import Product
+    from .order_product_association import OrderProductAssociation
 
 
 class OrderStatus(enum.Enum):
@@ -15,8 +16,8 @@ class OrderStatus(enum.Enum):
     received = "Received"
 
 
-class Order(UserRelationMixin, Base):
-    _user_back_populates_ = "orders"
+class Order(Base):
+    # _user_back_populates_ = "orders"
 
     status: Mapped[str] = mapped_column(default=OrderStatus.accepted)
     # status: Mapped[OrderStatus]
@@ -24,6 +25,13 @@ class Order(UserRelationMixin, Base):
         Text,
         default="",
         server_default="",
+    )
+    # products: Mapped[list["Product"]] = relationship(
+    #     secondary="order_product_association",
+    #     back_populates="orders",
+    # )
+    products_details: Mapped[list["OrderProductAssociation"]] = relationship(
+        back_populates="order"
     )
     # cart_id: Mapped[int] = mapped_column(ForeignKey("carts.id"), unique=True)
     # cart = relationship("Cart", back_populates="orders")

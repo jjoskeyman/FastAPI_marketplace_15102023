@@ -1,5 +1,5 @@
 import asyncio
-import pika
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
@@ -114,76 +114,36 @@ async def get_accounts_with_user_with_reviews(
         print(acc.user.reviews)
 
 
-# async def make_relations():
-#     async with db_helper.session_factory() as session:
-# await create_user(session=session, username="gilyaz")
-# await create_user(session=session, username="trapa")
-# await create_user(session=session, username="Maria")
-#
-# user1 = await get_user_by_username(session=session, username="gilyaz")
-# user2 = await get_user_by_username(session=session, username="trapa")
-# # await create_user_account(
-# #     session=session,
-# #     user_id=user1.id,
-#     balance=1280,
-#     bio="koresh",
-# )
-# await create_user_account(
-#     session=session,
-#     user_id=user2.id,
-#     last_name="Trapicin",
-#     balance=12,
-#     bio="priyatel",
-# )
-# await get_users_with_accounts(session=session)
-# await create_reviews(session, user1.id, 3, "SQLA 2.0", "HOW DEAP IS YOUR LOVE")
-# await create_reviews(session, user2.id, 4, "MY THROAT", "yet another")
-# await get_users_with_reviews(session=session)
-# await get_reviews_with_users(session=session)
-# await get_users_with_reviews_and_accounts(session=session)
-# await get_accounts_with_user_with_reviews(session=session)
+async def make_relations():
+    async with db_helper.session_factory() as session:
+        await create_user(session=session, username="gilyaz")
+        await create_user(session=session, username="trapa")
+        await create_user(session=session, username="Maria")
+
+    user1 = await get_user_by_username(session=session, username="gilyaz")
+    user2 = await get_user_by_username(session=session, username="trapa")
+    await create_user_account(
+        session=session,
+        user_id=user1.id,
+        balance=1280,
+        bio="koresh",
+    )
+    await create_user_account(
+        session=session,
+        user_id=user2.id,
+        last_name="Trapicin",
+        balance=12,
+        bio="priyatel",
+    )
+    # await get_users_with_accounts(session=session)
+    # await create_reviews(session, user1.id, 3, "SQLA 2.0", "HOW DEAP IS YOUR LOVE")
+    # await create_reviews(session, user2.id, 4, "MY THROAT", "yet another")
+    # await get_users_with_reviews(session=session)
+    # await get_reviews_with_users(session=session)
+    # await get_users_with_reviews_and_accounts(session=session)
+    # await get_accounts_with_user_with_reviews(session=session)
 
 
-# class RabbitMQManager:
-#     def __init__(self, host, queue_names):
-#         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
-#         self.channel = self.connection.channel()
-#         self.queue_names = queue_names
-#
-#         for queue_name in queue_names:
-#             self.channel.queue_declare(queue=queue_name)
-#
-#     def send_message(self, queue_name, message):
-#         self.channel.basic_publish(exchange="", routing_key=queue_name, body=message)
-#         print(message)
-#
-#     def receive_message(self, queue_name, callback):
-#         self.channel.basic_consume(
-#             queue=queue_name, on_message_callback=callback, auto_ack=True
-#         )
-#         self.channel.start_consuming()
-#
-#
-# class Order:
-#     def __init__(self, order_id, customer_name, items):
-#         self.order_id = order_id
-#         self.customer_name = customer_name
-#         self.items = items
-#
-#
-# def create_order(order_id, customer_name, items):
-#     order = Order(order_id, customer_name, items)
-#     return order
-#
-#
-# def process_order_callback(ch, method, properties, body):
-#     # Получаем информацию о заказе
-#     order_info = body.decode("utf-8")
-#
-#     # Добавьте здесь логику обработки заказа
-#     # Например, подтверждение заказа, обновление статуса, подготовка к доставке
-#
-#     print(f"Заказ обработан: {order_info}")
 async def create_order(
     session: AsyncSession,
     status: str,
@@ -213,43 +173,43 @@ async def create_product(
     return product
 
 
-# async def create_orders_and_products():
-#     async with db_helper.session_factory() as session:
-#         order1 = await create_order(session, "Accepted", "")
-#         order2 = await create_order(session, "Accepted", "bla-bla-bla")
-#         order3 = await create_order(session, "Accepted", "Hello")
-#
-#         display = await create_product(
-#             session, "LG", "good gaming monitor", 1021, "electronics"
-#         )
-#         mouse = await create_product(
-#             session, "chinamouse", "office mouse", 17, "electronics"
-#         )
-#         chair = await create_product(
-#             session, "office chair", "best office chair", 1215, "furniture"
-#         )
-#         order1 = await session.scalar(
-#             select(Order)
-#             .where(Order.id == order1.id)
-#             .options(selectinload(Order.products)),
-#         )
-#         order2 = await session.scalar(
-#             select(Order)
-#             .where(Order.id == order2.id)
-#             .options(selectinload(Order.products)),
-#         )
-#         order3 = await session.scalar(
-#             select(Order)
-#             .where(Order.id == order3.id)
-#             .options(selectinload(Order.products)),
-#         )
-# order1.products.append(mouse)
-# order1.products.append(display)
-# order2.products = [mouse, display, chair]
-# order3.products = [chair]
+async def create_orders_and_products():
+    async with db_helper.session_factory() as session:
+        order1 = await create_order(session, "Accepted", "")
+        order2 = await create_order(session, "Accepted", "bla-bla-bla")
+        order3 = await create_order(session, "Accepted", "Hello")
+
+        display = await create_product(
+            session, "LG", "good gaming monitor", 1021, "electronics"
+        )
+        mouse = await create_product(
+            session, "chinamouse", "office mouse", 17, "electronics"
+        )
+        chair = await create_product(
+            session, "office chair", "best office chair", 1215, "furniture"
+        )
+        order1 = await session.scalar(
+            select(Order)
+            .where(Order.id == order1.id)
+            .options(selectinload(Order.products)),
+        )
+        order2 = await session.scalar(
+            select(Order)
+            .where(Order.id == order2.id)
+            .options(selectinload(Order.products)),
+        )
+        order3 = await session.scalar(
+            select(Order)
+            .where(Order.id == order3.id)
+            .options(selectinload(Order.products)),
+        )
+        order1.products.append(mouse)
+        order1.products.append(display)
+        order2.products = [mouse, display, chair]
+        order3.products = [chair]
+        await session.commit()
 
 
-# await session.commit()
 async def get_orders_with_products_through_secondary(session: AsyncSession):
     orders = await get_orders_with_products_association(session)
     for order in orders:
